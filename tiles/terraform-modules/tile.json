@@ -1,0 +1,38 @@
+{
+  "name": "guidion-digital/terraform-modules",
+  "version": "0.0.5",
+  "summary": "Standards and workflows for building secure, well-structured Terraform modules, including planning gates, validation steps, and implementation guidance.",
+  "private": false,
+  "docs": "docs/index.md",
+  "steering": {
+    "deterministic-execution": {
+      "rules": "rules/deterministic-execution.md"
+    },
+    "validation-gates": {
+      "rules": "rules/validation-gates.md"
+    },
+    "decision-boundaries": {
+      "rules": "rules/decision-boundaries.md"
+    },
+    "definition-of-done": {
+      "rules": "rules/definition-of-done.md"
+    },
+    "verify-terraform-changes": {
+      "rules": "rules/verify-terraform-changes.md"
+    }
+  },
+  "skills": {
+    "terraform-plan": {
+      "path": "skills/terraform-plan/SKILL.md"
+    },
+    "validation-runner": {
+      "path": "skills/validation-runner/SKILL.md"
+    },
+    "task-workflow": {
+      "path": "skills/task-workflow/SKILL.md"
+    },
+    "task-log-update": {
+      "path": "skills/task-log-update/SKILL.md"
+    }
+  }
+}

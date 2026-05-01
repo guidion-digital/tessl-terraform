@@ -1,0 +1,50 @@
+---
+alwaysApply: true
+---
+
+# Decision boundaries and escalation
+
+## Safe autonomous changes
+
+Proceed without escalation for low-risk, local changes such as:
+
+- documentation edits
+- index updates
+- narrow Terraform refactors that preserve behavior and are covered by required gates
+- non-destructive cleanup that does not alter interfaces or release behavior
+
+## Ask before proceeding
+
+Escalate before continuing when work involves:
+
+- destructive actions
+- ambiguous architectural direction
+- stateful resource replacement risk
+- interface/schema changes with unclear downstream impact
+- secrets, credentials, or sensitive data handling
+- broad refactors across multiple concerns
+- missing validation paths for risky changes
+
+Treat these as high risk even for small diffs:
+
+- OpenAPI generation or `overwrite_stage` behavior changes
+- API Gateway custom domain, ACM certificate, or Route53 ownership changes
+- VPC creation, TGW attachment, or Lambda VPC placement changes
+- RDS, ElastiCache, or secret-management behavior changes
+- Lambda event-source mapping changes for SQS, DynamoDB, or EventBridge
+- WAF rule or API security behavior changes
+
+## Stop and clarify triggers
+
+Stop and ask when:
+
+- docs and code materially conflict
+- baseline validation fails for reasons unrelated to the task
+- intended infrastructure diff is large or ambiguous
+- repository evidence is insufficient to choose safely between valid designs
+
+## Security rules
+
+- Never print or commit secrets.
+- Treat Terraform state, credentials, and environment files as sensitive.
+- Redact sensitive values in logs and summaries.

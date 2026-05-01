@@ -1,0 +1,52 @@
+---
+alwaysApply: true
+---
+
+# Validation gates by change class
+
+Run the union of gates for all applicable change classes.
+
+## Canonical commands
+
+- `terraform fmt -check -recursive`
+- `terraform -chdir=. validate`
+- `terraform -chdir=. plan -input=false -lock=false -detailed-exitcode`
+- `terraform -chdir=examples/test_app validate`
+- `terraform -chdir=examples/test_app plan -input=false -lock=false -detailed-exitcode`
+
+`terraform validate` and `terraform plan` require `terraform init` in the target directory.
+
+## `docs-only`
+
+- Verify links/references manually.
+- Update affected indexes if navigation changed.
+
+## `terraform-module`
+
+- `terraform fmt -check -recursive`
+- `terraform -chdir=. validate`
+- `terraform -chdir=. plan -input=false -lock=false -detailed-exitcode`
+
+## `example-terraform`
+
+- `terraform fmt -check -recursive`
+- `terraform -chdir=examples/test_app validate`
+- `terraform -chdir=examples/test_app plan -input=false -lock=false -detailed-exitcode`
+
+## `ci-workflow`
+
+- Review workflow triggers, dependencies, and permissions.
+- Note expected CI behavior when release/test gating changes.
+
+## Terraform plan gate semantics
+
+For Terraform behavior changes, plan gate passes only when:
+
+- exit code is `0` or `2`, and
+- planned actions match intended changes.
+
+Gate fails when:
+
+- exit code is not `0`/`2`, or
+- unexpected create/update/delete/replace appears, or
+- plan cannot be reviewed for intent match.

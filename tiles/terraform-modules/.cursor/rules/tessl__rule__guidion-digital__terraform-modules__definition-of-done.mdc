@@ -1,0 +1,37 @@
+---
+alwaysApply: true
+---
+
+# Definition of done
+
+A task is complete only when all applicable items below are satisfied.
+
+## Required
+
+- Requested change is implemented.
+- Smallest viable diff is used.
+- Mandatory validation gates passed, or a waiver is recorded.
+- Affected documentation/indexes are updated.
+- A reusable lesson is captured when discovered.
+- No unresolved TODOs are introduced without being called out.
+- Completion summary ends with a concise gate recap.
+
+## Terraform behavior changes
+
+For Terraform behavior changes, completion requires explicit plan-gate evidence:
+
+- target directory
+- exact command
+- exit code
+- concise diff scope
+- explicit `PASS` or `FAIL`
+
+If plan exit code is `2`, confirm diff matches intended resources and attributes only.
+
+## Not done when
+
+A task is not done if:
+
+- validation was skipped without waiver
+- known contradictions are left unresolved
+- completion summary omits known risk or validation gaps
