@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent implements the terraform plan verification procedure correctly in a reusable script, covering pre-flight checks, exact command flags, use of JSON output over stdout, the cross-check expectation step, and artifact cleanup.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "terraform version pre-flight",
+      "description": "Script contains a check for `terraform version` (or equivalent) as a pre-flight step before running plan",
+      "max_score": 8
+    },
+    {
+      "name": "AWS session pre-flight",
+      "description": "Script contains `aws sts get-caller-identity` as a pre-flight step to verify the AWS session",
+      "max_score": 10
+    },
+    {
+      "name": "Pre-flight stops on failure",
+      "description": "Pre-flight checks cause the script to exit/stop on failure rather than continuing (e.g. uses `|| exit`, `set -e`, or explicit failure handling)",
+      "max_score": 8
+    },
+    {
+      "name": "Plan directory: examples/test_app",
+      "description": "Script uses `examples/test_app` as the plan directory (not the repo root or another path)",
+      "max_score": 8
+    },
+    {
+      "name": "Init command flags",
+      "description": "Script runs `terraform init -input=false`",
+      "max_score": 6
+    },
+    {
+      "name": "Plan command flags",
+      "description": "Script runs `terraform plan` with `-input=false -lock=false -out=tfplan` flags",
+      "max_score": 10
+    },
+    {
+      "name": "JSON show command",
+      "description": "Script runs `terraform show -json tfplan` and saves the output to `tfplan.json`",
+      "max_score": 8
+    },
+    {
+      "name": "Uses tfplan.json not stdout",
+      "description": "Script reads or processes `tfplan.json` for analysis/output (not just relying on plan stdout rendering)",
+      "max_score": 10
+    },
+    {
+      "name": "Cleanup step",
+      "description": "Script removes `tfplan` and `tfplan.json` after the verification (e.g. `rm -f tfplan tfplan.json`)",
+      "max_score": 8
+    },
+    {
+      "name": "Zero-change = FAIL when diff expected",
+      "description": "Script or accompanying documentation notes that exit code 0 (no changes) is a FAIL if changes were expected",
+      "max_score": 10
+    },
+    {
+      "name": "No-errors != PASS",
+      "description": "Script or documentation explicitly states that a plan without errors is not sufficient — the plan must match the intended changes",
+      "max_score": 8
+    },
+    {
+      "name": "Resource summary on pass",
+      "description": "Script or accompanying documentation includes a step to report how many creates/updates/destroys were planned when the plan passes",
+      "max_score": 6
+    }
+  ]
+}

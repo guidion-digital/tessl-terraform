@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent correctly classifies change types, selects the right canonical validation gates per class (including union for mixed changes), interprets -detailed-exitcode semantics correctly, and produces properly structured waivers when a gate cannot be run.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct classification A",
+      "description": "Change set A (only .md files changed) is classified as `docs-only`",
+      "max_score": 6
+    },
+    {
+      "name": "Correct classification B",
+      "description": "Change set B (module .tf files changed) is classified as `terraform-module`",
+      "max_score": 6
+    },
+    {
+      "name": "Correct classification C",
+      "description": "Change set C (.tf files in examples/ AND module .tf files) is classified as `mixed` (not just example-terraform or terraform-module alone)",
+      "max_score": 6
+    },
+    {
+      "name": "Mixed union gates",
+      "description": "For change set C (mixed), the plan lists gates from BOTH terraform-module AND example-terraform classes (union, not just one class)",
+      "max_score": 12
+    },
+    {
+      "name": "terraform-module gate commands",
+      "description": "For terraform-module class, plan includes: `terraform fmt -check -recursive`, `terraform -chdir=. validate`, and `terraform -chdir=. plan` with `-detailed-exitcode`",
+      "max_score": 10
+    },
+    {
+      "name": "example-terraform gate commands",
+      "description": "For example-terraform class, plan includes `terraform -chdir=examples/test_app validate` and `terraform -chdir=examples/test_app plan` with `-detailed-exitcode`",
+      "max_score": 8
+    },
+    {
+      "name": "Exit code 0 = no diff PASS",
+      "description": "Plan states that exit code 0 from a plan gate means no diff and is a PASS",
+      "max_score": 6
+    },
+    {
+      "name": "Exit code 2 = diff conditional PASS",
+      "description": "Plan states that exit code 2 is a PASS only if the diff matches intended changes (not an unconditional PASS)",
+      "max_score": 10
+    },
+    {
+      "name": "Waiver structure",
+      "description": "For the gate that cannot be run, the waiver entry contains all four required components: skipped gate name, reason, residual risk, and acceptance context",
+      "max_score": 12
+    },
+    {
+      "name": "Gate summary format",
+      "description": "Output ends with a compact gate summary that lists command scope, result (pass/fail/waived), and any waivers — following the compact one-liner style",
+      "max_score": 8
+    },
+    {
+      "name": "docs-only gates",
+      "description": "For the docs-only change set, plan specifies manually verifying links/references and updating affected indexes if navigation changed",
+      "max_score": 8
+    },
+    {
+      "name": "Init before validate/plan",
+      "description": "Plan notes that `terraform init` must be run before `terraform validate` or `terraform plan` in any directory",
+      "max_score": 8
+    }
+  ]
+}

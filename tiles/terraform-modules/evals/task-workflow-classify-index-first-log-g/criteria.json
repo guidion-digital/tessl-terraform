@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent follows the task-workflow skill end-to-end for a documentation update: classifying the change first, reading the docs indexes before implementation files, making the minimal change, invoking the correct validation, creating a task log entry, and ending with a gate recap.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Change classified first",
+      "description": "Agent output (e.g. a plan or log) explicitly states the change class (docs-only) before describing implementation steps — not discovered mid-way",
+      "max_score": 8
+    },
+    {
+      "name": "Reads docs indexes first",
+      "description": "Agent reads or references at least one of the docs/repo-indexes/ files (repo-root.md, modules.md, examples.md, or github.md) before modifying implementation content",
+      "max_score": 10
+    },
+    {
+      "name": "Minimal change applied",
+      "description": "Modified files contain only the targeted documentation change — no unrelated additions, refactors, or reformatting of other sections",
+      "max_score": 8
+    },
+    {
+      "name": "Index updated",
+      "description": "The modules index file (docs/repo-indexes/modules.md) is updated to reflect the new module content that changed discoverability",
+      "max_score": 10
+    },
+    {
+      "name": "Task log created",
+      "description": "A task log file is created in `agent-logs/` directory with the YYYY-MM-DD-short-task-name.md filename pattern",
+      "max_score": 10
+    },
+    {
+      "name": "Task log has required fields",
+      "description": "The task log file contains all required fields: Date, Scope, Change classes, Files changed, Why, Validation, Waivers, Risks/follow-up, Memory updates, Gates summary",
+      "max_score": 10
+    },
+    {
+      "name": "Completion summary gate recap",
+      "description": "The completion summary or final output ends with a gate recap (e.g. 'Gates: links checked; indexes updated.')",
+      "max_score": 8
+    },
+    {
+      "name": "Links verified",
+      "description": "Agent output indicates that links/references in the updated docs were manually verified (docs-only gate requirement)",
+      "max_score": 8
+    },
+    {
+      "name": "No scope broadening",
+      "description": "Changes do NOT include modifications to .tf files, variables, outputs, or any non-documentation content beyond the stated task",
+      "max_score": 8
+    },
+    {
+      "name": "Gate passed before completion",
+      "description": "Agent does not declare the task complete before noting that the docs-only validation gate was satisfied (links checked, indexes updated)",
+      "max_score": 8
+    },
+    {
+      "name": "Summary concise with gate",
+      "description": "Final summary is concise (not a lengthy narrative) and explicitly includes a gates line listing outcomes",
+      "max_score": 6
+    },
+    {
+      "name": "Change class correct",
+      "description": "Change class recorded in task log is `docs-only`, not `terraform-module` or `mixed`",
+      "max_score": 6
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent creates a task log entry in the correct location with the correct filename format and all required fields present, as specified by the task-log-update skill. The scenario involves completing a meaningful terraform module change and recording the work.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct directory",
+      "description": "Log file is created inside `agent-logs/` directory (not in root or any other path)",
+      "max_score": 10
+    },
+    {
+      "name": "Filename date format",
+      "description": "Filename starts with a date in YYYY-MM-DD format (e.g. 2026-05-02-...) followed by a short task name and .md extension",
+      "max_score": 10
+    },
+    {
+      "name": "Task title field",
+      "description": "Log file contains a 'Task title' or '# Task Title' field/heading",
+      "max_score": 8
+    },
+    {
+      "name": "All 10 required fields",
+      "description": "Log file contains all 10 required fields: Date, Scope, Change classes, Files changed, Why, Validation, Waivers, Risks/follow-up, Memory updates, Gates summary",
+      "max_score": 20
+    },
+    {
+      "name": "Sensitive values redacted",
+      "description": "Log file does NOT contain any raw AWS account IDs, access key strings, secret values, or other sensitive credential data from the scenario context",
+      "max_score": 10
+    },
+    {
+      "name": "Gates summary present",
+      "description": "Log file contains a 'Gates summary' field with content describing gate outcomes (not left blank or 'N/A')",
+      "max_score": 10
+    },
+    {
+      "name": "Validation-Waivers-Gates aligned",
+      "description": "The Validation, Waivers, and Gates summary fields are consistent with each other (e.g. if Waivers says 'none', Gates summary does not list waivers; if Validation lists passed gates, Gates summary reflects same)",
+      "max_score": 10
+    },
+    {
+      "name": "Change classes field populated",
+      "description": "The 'Change classes' field contains one of the valid class values: docs-only, terraform-module, example-terraform, ci-workflow, or mixed",
+      "max_score": 10
+    },
+    {
+      "name": "Files changed field populated",
+      "description": "The 'Files changed' field lists at least one specific file path that was part of the described task",
+      "max_score": 6
+    },
+    {
+      "name": "Why field populated",
+      "description": "The 'Why' field contains a non-empty explanation of the reason for the change (not just 'N/A' or empty)",
+      "max_score": 6
+    }
+  ]
+}
