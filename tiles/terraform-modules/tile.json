@@ -1,6 +1,6 @@
 {
   "name": "guidion-digital/terraform-modules",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "summary": "Standards and workflows for building secure, well-structured Terraform modules, including planning gates, validation steps, and implementation guidance.",
   "private": false,
   "docs": "docs/index.md",
